@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>웹 폼</title>
+    <style> /* 텍스트, 웹 폼 정렬 */
+      h3{
+        text-align: center;
+      }
+      .container{
+        display: flex;
+        justify-content: center;
+        margin: 10px;
+        padding: 10px;
+      }
+      #form1{
+        width: 300px;
+        margin: 10px;
+        padding: 10px;
+        background-color: darkgrey;
+      }
+      #form2{
+        width: 300px;
+        margin: 10px;
+        padding: 10px;
+        background-color: bisque;
+      }
+    </style>
+    <script>
+      function submitForm1(event) { //폼 A 제출
+        event.preventDefault();
+        const email = document.getElementById( "email" ).value;
+        const name = document.getElementById( "name" ).value;
+        const message = document.getElementById( "message" ).value;
+
+        fetch("https://script.google.com/macros/s/AKfycbwiHkaAGOKiKNTI1JoX20SbCTowXm9R3dSnTAj5Og6NanEFgQiBptl7SvVXDyZiWFqB/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+        body: `email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}`
+        }).then(response => {
+          alert("정보가 성공적으로 전송되었습니다!");
+        }).catch(error => {
+          alert("전송 실패: " + error.message);
+        });
+      }
+    </script>
+    <script>
+      function submitForm2(event) { //폼 B 제출
+        event.preventDefault();
+
+        let animal = ''
+        if (document.getElementById( "animal_id1" ).checked) {
+          animal = document.getElementById( "animal_id1").value;
+        } else if (document.getElementById("animal_id2").checked) {
+              animal = document.getElementById("animal_id2").value;
+          }
+        
+
+
+        //체크박스
+        const ck1 = document.getElementById("ck1").checked? document.getElementById("ck1").value : ""
+        const ck2= document.getElementById("ck2").checked? document.getElementById("ck2").value : ""
+        const ck3 = document.getElementById("ck3").checked? document.getElementById("ck3").value : ""
+        const ck4 = document.getElementById("ck4").checked? document.getElementById("ck4").value : ""
+        const ck = ck1 + ", " + ck2 + ", " + ck3 + ", " + ck4;
+
+        const dessert = document.getElementById( "dessert_id" ).value;
+        
+        const quiz = document.getElementById( "quiz_id" ).value;
+
+        fetch("https://script.google.com/macros/s/AKfycbwiHkaAGOKiKNTI1JoX20SbCTowXm9R3dSnTAj5Og6NanEFgQiBptl7SvVXDyZiWFqB/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+        body: `animal=${encodeURIComponent(animal)}&ck=${encodeURIComponent(ck)}&dessert=${encodeURIComponent(dessert)}&quiz=${encodeURIComponent(quiz)}`
+        }).then(response => {
+          alert("정보가 성공적으로 전송되었습니다!");
+        }).catch(error => {
+          alert("전송 실패: " + error.message);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+  <h3>정보 제출 폼</h3>
+  <div class="container">
+    <div id="form1"> <!--폼 A-->
+      <form onsubmit="submitForm1(event)">
+        <fieldset>
+          <legend>폼 A</legend>
+          <label for="email">이메일:</label><br>
+          <input type="email" id="email" name="email" placeholder="메일 주소 입력" required><br><br>
+          <hr>
+          <label for="name">이름:</label><br>
+          <input type="text" id="name" name="name" placeholder="@@@" required><br><br>
+          <hr>
+          <label for="message">자유 메세지:</label>
+          <textarea id="message" name="message" placeholder="~~~~~~~" required></textarea><br><br>
+          <button type="submit">제출</button>
+        </fieldset>
+      </form>
+    </div>
+    <div id="form2"> <!--폼 B-->
+      <form onsubmit="submitForm2(event)">
+        <fieldset>
+          <legend>폼 B</legend>
+          고양이 vs 강아지:<br>
+          <label>고양이</label><br>
+          <input type="radio" id="animal_id1" name="animal" value="고양이"><br>
+          <label>강아지</label><br>
+          <input type="radio" id="animal_id2" name="animal" value="강아지"><br><br>
+          <hr>
+
+          여행을 간다면 언제?:<br>
+          <label>봄</label>
+          <input type="checkbox" id="ck1" value="봄"><br>
+          <label>여름</label>
+          <input type="checkbox" id="ck2" value="여름"><br>
+          <label>가을</label>
+          <input type="checkbox" id="ck3" value="가을"><br>
+          <label>겨울</label>
+          <input type="checkbox" id="ck4" value="겨울"><br><br>
+          <hr>
+
+          간식으로 무엇을 먹을까:<br>
+          <input type="text" id="dessert_id" name="dessert_name" list="dessert" placeholder="간식 종류"><br>
+          <datalist id="dessert">
+            <option value="과자">
+            <option value="케이크">
+            <option value="마카롱">
+            <option value="과일">
+          </datalist><br><hr>
+
+          덕성여대 위치 맞추기:
+          <select id="quiz_id" name="quiz_name">
+            <option value="송파구">송파구</option>
+            <option value="도봉구">도봉구</option>
+            <option value="마포구">마포구</option>
+            <option value="양천구">양천구</option>
+          </select><br><br>
+
+          <button type="submit">제출</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  </body>
+</html>
